@@ -1,8 +1,12 @@
 const express = require('express');
 const path = require('path');
 const { toRoman } = require('./roman');
+const { setupMetrics } = require('./utils/metrics');
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Enable Prometheus metrics endpoint and middleware
+setupMetrics(app);
 
 // Minimal logging
 app.use((req, res, next) => {
