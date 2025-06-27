@@ -143,19 +143,6 @@ The test suite includes:
 
 ### Endpoints
 
-#### `GET /health`
-Health check endpoint.
-```bash
-curl http://localhost:8080/health
-```
-**Response:**
-```json
-{
-  "status": "OK",
-  "timestamp": "2024-01-01T12:00:00.000Z"
-}
-```
-
 #### `GET /romannumeral?query={integer}`
 Convert Arabic numeral to Roman numeral.
 ```bash
@@ -179,9 +166,9 @@ curl http://localhost:8080/metrics
 
 | Status | Description | Example |
 |--------|-------------|---------|
-| 400 | Invalid input | `{"error": "Number must be between 1 and 3999"}` |
-| 404 | Endpoint not found | `{"error": "Not found"}` |
-| 500 | Internal server error | `{"error": "Internal server error"}` |
+| 400 | Invalid input | `Number must be 1-3999` |
+| 404 | Endpoint not found | `Not found` |
+| 500 | Internal server error | `Internal server error` |
 
 ## 🎨 UI Features
 
@@ -270,11 +257,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Adobe React Spectrum**: For the excellent UI component library
 - **Roman Numeral Specification**: Based on historical conventions and Wikipedia standards
 - **Open Source Community**: For the various tools and libraries used
-
-## 📞 Support
-
-For questions or issues:
-1. Check the documentation
-2. Review existing issues
-3. Create a new issue with detailed information
-4. Include logs and error messages when applicable 
