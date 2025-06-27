@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Numeral Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            background: #28a745;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .result-text {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .conversion-display {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .conversion-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .conversion-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .value {
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: #999;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-section {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .info-section h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .roman-symbols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .symbol {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #bbdefb;
+        }
+
+        .symbol strong {
+            color: #1976d2;
+            font-size: 1.1rem;
+        }
+
+        .examples {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .conversion-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Roman Numeral Converter</h1>
+            <p class="subtitle">Convert Arabic numerals (1-3999) to Roman numerals</p>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="numberInput">Number (1-3999)</label>
+                <input 
+                    type="number" 
+                    id="numberInput" 
+                    placeholder="Enter a number between 1 and 3999"
+                    min="1" 
+                    max="3999"
+                >
+            </div>
+            
+            <button id="convertBtn" onclick="convertToRoman()">
+                Convert to Roman Numeral
+            </button>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Converting...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <div class="status-light"></div>
+                <span class="result-text">Conversion successful!</span>
+            </div>
+            <div class="conversion-display">
+                <div class="conversion-row">
+                    <span class="label">Arabic:</span>
+                    <span class="value" id="arabicValue"></span>
+                </div>
+                <div class="conversion-row">
+                    <span class="label">Roman:</span>
+                    <span class="value" id="romanValue"></span>
+                </div>
+            </div>
+            <div class="timestamp" id="timestamp"></div>
+        </div>
+
+        <div class="info-section">
+            <h3>About Roman Numerals</h3>
+            <div class="roman-symbols">
+                <div class="symbol"><strong>I</strong> = 1</div>
+                <div class="symbol"><strong>V</strong> = 5</div>
+                <div class="symbol"><strong>X</strong> = 10</div>
+                <div class="symbol"><strong>L</strong> = 50</div>
+                <div class="symbol"><strong>C</strong> = 100</div>
+                <div class="symbol"><strong>D</strong> = 500</div>
+                <div class="symbol"><strong>M</strong> = 1000</div>
+            </div>
+            <p class="examples">
+                <strong>Examples:</strong> 4 = IV, 9 = IX, 49 = XLIX, 3999 = MMMCMXCIX
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+        
+        // DOM elements
+        const numberInput = document.getElementById('numberInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const loading = document.getElementById('loading');
+        const resultSection = document.getElementById('resultSection');
+        const arabicValue = document.getElementById('arabicValue');
+        const romanValue = document.getElementById('romanValue');
+        const timestamp = document.getElementById('timestamp');
+
+        // Event listeners
+        numberInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convertToRoman();
+            }
+        });
+
+        numberInput.addEventListener('input', function() {
+            hideError();
+            hideResult();
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            hideResult();
+        }
+
+        function hideError() {
+            errorMessage.classList.remove('show');
+        }
+
+        function showLoading() {
+            loading.classList.add('show');
+            convertBtn.disabled = true;
+        }
+
+        function hideLoading() {
+            loading.classList.remove('show');
+            convertBtn.disabled = false;
+        }
+
+        function showResult(data) {
+            arabicValue.textContent = data.input;
+            romanValue.textContent = data.output;
+            timestamp.textContent = `Converted at: ${new Date().toLocaleString()}`;
+            resultSection.classList.add('show');
+        }
+
+        function hideResult() {
+            resultSection.classList.remove('show');
+        }
+
+        function validateInput(value) {
+            if (!value) {
+                return 'Please enter a number';
+            }
+            
+            const number = parseInt(value, 10);
+            
+            if (isNaN(number)) {
+                return 'Please enter a valid number';
+            }
+            
+            if (number < 1 || number > 3999) {
+                return 'Number must be between 1 and 3999';
+            }
+            
+            return null;
+        }
+
+        async function convertToRoman() {
+            const value = numberInput.value.trim();
+            const validationError = validateInput(value);
+            
+            if (validationError) {
+                showError(validationError);
+                return;
+            }
+
+            hideError();
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/romannumeral?query=${value}`);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Failed to convert number');
+                }
+                
+                const data = await response.json();
+                showResult(data);
+            } catch (error) {
+                showError(error.message || 'An error occurred during conversion');
+                console.error('Conversion error:', error);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Check if server is running on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (!response.ok) {
+                    showError('Server is not responding. Please make sure the API server is running.');
+                }
+            } catch (error) {
+                showError('Cannot connect to server. Please make sure the API server is running on http://localhost:8080');
+            }
+        });
+    </script>
+</body>
+</html> 

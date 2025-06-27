@@ -1,0 +1,177 @@
+/* Custom styles for Roman Numeral Converter */
+
+/* Center the app vertically and horizontally */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body, #root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--background, #f5f5f5);
+}
+
+.app-container {
+  background: var(--background, #fff);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 340px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body, #root {
+    background: #181818;
+  }
+  .app-container {
+    background: #232323;
+    color: #fff;
+  }
+}
+
+h1, .spectrum-Heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+label, .spectrum-FieldLabel {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+input, .spectrum-TextField {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 32px;
+  box-sizing: border-box;
+}
+
+button, .spectrum-Button {
+  font-size: 1.1rem;
+  padding: 10px 28px;
+  border-radius: 24px;
+  border: 2px solid #222;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.2s, color 0.2s;
+}
+
+button:hover, .spectrum-Button:hover {
+  background: #222;
+  color: #fff;
+}
+
+.result-display {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    min-width: 90vw;
+    padding: 24px 8px;
+  }
+  h1, .spectrum-Heading {
+    font-size: 1.3rem;
+  }
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: #2a2a2a;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #666;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Custom focus styles for better accessibility */
+*:focus {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .spectrum-View {
+    padding: 16px !important;
+  }
+  
+  .spectrum-Heading {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .spectrum-Button {
+    display: none !important;
+  }
+  
+  .spectrum-TextField {
+    border: 1px solid #000 !important;
+  }
+} 
